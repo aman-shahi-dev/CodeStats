@@ -1,4 +1,4 @@
-import { useTheme } from "../hooks/useTheme";
+import { useTheme } from "../../hooks/useTheme";
 
 function SunIcon() {
   return (
@@ -40,7 +40,7 @@ function MoonIcon() {
   );
 }
 
-export default function ToggleTheme({ classname = "" }) {
+export default function ThemeToggle({ classname = "" }) {
   const { isDark, toggleTheme } = useTheme();
 
   return (
