@@ -3,6 +3,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/ui/Input";
 import Button from "../../components/ui/Button";
+import { Link } from "react-router-dom";
 
 export function RegisterPage() {
   const { register } = useAuth();

@@ -2,7 +2,7 @@ import { APP_NAME } from "../constants/constants";
 import { useAuth } from "../hooks/useAuth";
 import ThemeToggle from "./ui/ThemeToggle";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import Logo from "../components/ui/Logo";
+import {Logo} from "../components/ui/Logo";
 
 const navLinkClass = ({ isActive }) =>
   `text-sm font-medium transition-colors duration-200 px-3 py-1.5 rounded-lg ${
