@@ -1,6 +1,8 @@
 import { useContext, useState, useEffect } from "react";
 import { account } from "../services/appwrite/appwrite";
 import { AuthContext } from "../contexts/AuthContext";
+import { OAuthProvider } from "appwrite";
+import client from "../services/appwrite/appwrite";
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -8,6 +10,16 @@ export function AuthProvider({ children }) {
 
   // check for an existing session on mount
   useEffect(() => {
+    if (window.location.pathname === "/auth/callback") {
+      setIsLoading(false);
+      return;
+    }
+
+    const jwt = localStorage.getItem("appwrite_jwt");
+    if (jwt) {
+      client.setJWT(jwt);
+    }
+
     account
       .get()
       .then(setUser)
@@ -42,6 +54,7 @@ export function AuthProvider({ children }) {
   const logout = async () => {
     try {
       await account.deleteSession("current");
+      localStorage.removeItem("appwrite_jwt");
       setUser(null);
     } catch (error) {
       console.error("Logout error ::", error);
@@ -49,8 +62,35 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const loginWithGoogle = () => {
+    account.createOAuth2Session(
+      OAuthProvider.Google,
+      `${window.location.origin}/auth/callback`,
+      `${window.location.origin}/login?error=oauth_failed`
+    );
+  };
+
+  const loginWithGithub = () => {
+    account.createOAuth2Session(
+      OAuthProvider.Github,
+      `${window.location.origin}/auth/callback`,
+      `${window.location.origin}/login?error=oauth_failed`
+    );
+  };
+
   return (
-    <AuthContext.Provider value={{ user, isLoading, register, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        setUser,
+        isLoading,
+        register,
+        login,
+        logout,
+        loginWithGoogle,
+        loginWithGithub,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

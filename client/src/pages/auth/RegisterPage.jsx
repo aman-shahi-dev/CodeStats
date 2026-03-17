@@ -1,18 +1,24 @@
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Input from "../../components/ui/Input";
 import Button from "../../components/ui/Button";
 import { Link } from "react-router-dom";
+import OAuthButtons from "../../components/ui/OAuthButtons";
 
 export function RegisterPage() {
   const { register } = useAuth();
   const navigate = useNavigate();
 
+  const [searchParams] = useSearchParams();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState(
+    searchParams.get("error") === "oauth_failed"
+      ? "OAuth sign-up failed. Please try again!"
+      : ""
+  );
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -24,7 +30,7 @@ export function RegisterPage() {
       navigate("/dashboard");
     } catch (error) {
       setError(
-        error.message || "Couldn't create an account. Please try once again",
+        error.message || "Couldn't create an account. Please try once again"
       );
     } finally {
       setIsLoading(false);
@@ -49,7 +55,23 @@ export function RegisterPage() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <OAuthButtons label="Sign up" />
+
+        <div className="flex items-center gap-1">
+          <div
+            className="flex-1 h-px"
+            style={{ backgroundColor: "var(--border)" }}
+          />
+          <span className="text-xs" style={{ color: "var(--text-tertiary)" }}>
+            or continue with email
+          </span>
+          <div
+            className="flex-1 h-px"
+            style={{ backgroundColor: "var(--border)" }}
+          />
+        </div>
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
           <Input
             label="Name"
             type="text"
