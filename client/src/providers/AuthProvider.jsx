@@ -1,25 +1,17 @@
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { account } from "../services/appwrite/appwrite";
 import { AuthContext } from "../contexts/AuthContext";
 import { OAuthProvider } from "appwrite";
-import client from "../services/appwrite/appwrite";
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // true until first session check
+  const [isLoading, setIsLoading] = useState(true);
 
-  // check for an existing session on mount
   useEffect(() => {
     if (window.location.pathname === "/auth/callback") {
       setIsLoading(false);
       return;
     }
-
-    const jwt = localStorage.getItem("appwrite_jwt");
-    if (jwt) {
-      client.setJWT(jwt);
-    }
-
     account
       .get()
       .then(setUser)
@@ -54,7 +46,6 @@ export function AuthProvider({ children }) {
   const logout = async () => {
     try {
       await account.deleteSession("current");
-      localStorage.removeItem("appwrite_jwt");
       setUser(null);
     } catch (error) {
       console.error("Logout error ::", error);
