@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import Input from "../../components/ui/Input";
@@ -7,12 +7,13 @@ import OAuthButtons from "../../components/ui/OAuthButtons";
 
 export function LoginPage() {
   const [searchParams] = useSearchParams();
+  const oauthError = searchParams.get("error");
   const { login } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(
-    searchParams.get("error") === "oauth_failed"
+    oauthError === "oauth_failed"
       ? "OAuth sign-in failed. Please try again!"
       : ""
   );
