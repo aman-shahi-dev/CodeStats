@@ -21,12 +21,10 @@ export default function AuthCallback() {
       .createSession(userId, secret)
       .then(() => account.get())
       .then((user) => {
-        console.log("✅ OAuth success:", user);
         setUser(user);
         navigate("/dashboard", { replace: true });
       })
       .catch((err) => {
-        console.error("❌ OAuth failed:", err);
         navigate("/login?error=oauth_failed", { replace: true });
       });
   }, []);

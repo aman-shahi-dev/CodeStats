@@ -18,6 +18,12 @@ export function LoginPage() {
   );
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    if (oauthError === "oauth_failed") {
+      window.history.replaceState({}, "", "/login");
+    }
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
