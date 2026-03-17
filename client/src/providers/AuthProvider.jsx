@@ -63,7 +63,7 @@ export function AuthProvider({ children }) {
   };
 
   const loginWithGoogle = () => {
-    account.createOAuth2Session(
+    account.createOAuth2Token(
       OAuthProvider.Google,
       `${window.location.origin}/auth/callback`,
       `${window.location.origin}/login?error=oauth_failed`
@@ -71,7 +71,7 @@ export function AuthProvider({ children }) {
   };
 
   const loginWithGithub = () => {
-    account.createOAuth2Session(
+    account.createOAuth2Token(
       OAuthProvider.Github,
       `${window.location.origin}/auth/callback`,
       `${window.location.origin}/login?error=oauth_failed`

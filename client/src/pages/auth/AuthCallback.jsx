@@ -9,23 +9,30 @@ export default function AuthCallback() {
   const { setUser } = useAuth();
 
   useEffect(() => {
-    setTimeout(() => {
-      account
-        .createJWT()
-        .then(({ jwt }) => {
-          localStorage.setItem("appwrite_jwt", jwt);
-          client.setJWT(jwt);
-          return account.get();
-        })
-        .then((user) => {
-          setUser(user);
-          navigate("/dashboard", { replace: true });
-        })
-        .catch((error) => {
-          console.error("❌ OAuth failed:", error);
-          navigate("/login?error=oauth_failed", { replace: true });
-        });
-    }, 500);
+    const params = new URLSearchParams(window.location.search);
+    const userId = params.get("userId");
+    const secret = params.get("secret");
+
+    if (!userId || !secret) {
+      navigate("/login?error=oauth_failed", { replace: true });
+    }
+
+    account
+      .createSession(userId, secret)
+      .then(() => account.createJWT())
+      .then(({ jwt }) => {
+        localStorage.setItem("appwrite_jwt", jwt);
+        client.setJWT(jwt);
+        return account.get();
+      })
+      .then((user) => {
+        setUser(user);
+        navigate("/dashboard", { replace: true });
+      })
+      .catch((error) => {
+        console.error("OAuth failed:", error);
+        navigate("/login?error=oauth_failed", { replace: true });
+      });
   }, []);
 
   return (
