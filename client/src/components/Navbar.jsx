@@ -5,7 +5,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Logo } from "../components/ui/Logo";
 
 const navLinkClass = ({ isActive }) =>
-  `text-sm font-medium transition-colors duration-200 px-4 py-2 rounded-md ${
+  `text-sm font-medium px-4 py-2 rounded-md active:scale-95 transition duration-300 ${
     isActive
       ? "text-[var(--text-inverse)] bg-[var(--brand-subtle)]"
       : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-raised)]"
@@ -32,7 +32,7 @@ export default function Navbar() {
         {/* Left: Logo */}
         <Link
           to={user ? "/dashboard" : "/"}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 active:scale-95 transition duration-300"
         >
           <Logo />
           <span
@@ -59,7 +59,7 @@ export default function Navbar() {
               />
               <button
                 onClick={handleLogout}
-                className="btn-ghost bg-red-500 text-white hover:bg-red-700 text-sm px-3 py-1.5"
+                className="btn-ghost bg-red-500 text-white hover:bg-red-700 text-sm px-3 py-1.5 active:scale-95 transition duration-300"
               >
                 Sign Out
               </button>
@@ -69,12 +69,15 @@ export default function Navbar() {
               <NavLink to="/login" className={navLinkClass}>
                 Sign In
               </NavLink>
-              <Link to="/register" className="btn-primary text-sm ml-1">
+              <Link
+                to="/register"
+                className="btn-primary text-sm ml-1 active:scale-95"
+              >
                 Get Started
               </Link>
             </>
           )}
-          <ThemeToggle className="ml-1" />
+          <ThemeToggle className="ml-1 active:scale-95" />
         </div>
       </div>
     </nav>

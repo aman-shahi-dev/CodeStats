@@ -3,7 +3,7 @@ export default function Button({
   variant = "primary",
   size = "md",
   isLoading = false,
-  className = "",
+  className = "active:scale-95 transition duration-300",
   ...props
 }) {
   const variantClass = {

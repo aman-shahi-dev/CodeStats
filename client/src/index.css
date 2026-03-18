@@ -22,7 +22,7 @@
 }
 
 :root {
-  --bg-base: #ffffff;
+  --bg-base: oklch(92.5% 0.005 214.3);
   --bg-surface: #fafaf9;
   --bg-raised: #eeeeee;
   --bg-sunken: #f5f5f4;

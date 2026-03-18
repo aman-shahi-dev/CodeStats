@@ -16,10 +16,16 @@ export function LandingPage() {
         Unify your Codeforces, LeetCode, and AtCoder stats in one dashboard.
       </p>
       <div className="flex gap-3">
-        <Link to="/register" className="btn-primary">
+        <Link
+          to="/register"
+          className="btn-primary transition duration-300 active:scale-95"
+        >
           Get started free
         </Link>
-        <Link to="/login" className="btn-secondary">
+        <Link
+          to="/login"
+          className="btn-secondary transition duration-300 active:scale-95"
+        >
           Sign In
         </Link>
       </div>

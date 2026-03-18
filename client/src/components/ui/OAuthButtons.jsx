@@ -10,7 +10,7 @@ export default function OAuthButtons({ label = "Continue" }) {
       <button
         type="button"
         onClick={loginWithGoogle}
-        className="btn-secondary w-full flex items-center justify-center gap-3"
+        className="btn-secondary w-full flex items-center justify-center gap-3 active:scale-95 transition duration-300"
       >
         <GoogleIcon />
         <span>{label} with Google</span>
@@ -19,7 +19,7 @@ export default function OAuthButtons({ label = "Continue" }) {
       <button
         type="button"
         onClick={loginWithGithub}
-        className="btn-secondary w-full flex items-center justify-center gap-3"
+        className="btn-secondary w-full flex items-center justify-center gap-3 active:scale-95 transition duration-300"
       >
         <GithubIcon />
         <span>{label} with Github</span>
