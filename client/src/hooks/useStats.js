@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback, useRef } from "react";
-import { useAuth } from "../hooks/useAuth";
-import { useProfile } from "../hooks/useProfile";
+import { useRef, useEffect, useState, useCallback } from "react";
+import { useAuth } from "./useAuth";
+import { useProfile } from "./useProfile";
 import { statsService } from "../services/stats/statsService";
 import { profileService } from "../services/appwrite/profileService";
 
@@ -8,66 +8,62 @@ const TTL_MINUTES = 30;
 
 function isStale(lastFetchedAt) {
   if (!lastFetchedAt) return true;
-  const last = new Date(lastFetchedAt).getTime();
+
+  const lastFetch = new Date(lastFetchedAt).getTime();
   const now = Date.now();
-  return now - last > TTL_MINUTES * 60 * 1000;
+
+  return now - lastFetch > TTL_MINUTES * 60 * 1000;
 }
 
 export function useStats() {
   const { user } = useAuth();
   const { profile, refetch: refetchProfile } = useProfile();
-  const hasAutoFetched = useRef(false);
 
   const [stats, setStats] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [errors, setErrors] = useState({ cf: null, lc: null, ac: null });
+  const [error, setError] = useState(null);
   const [lastFetchedAt, setLastFetchedAt] = useState(null);
+
+  const hasAutoFetched = useRef(false);
 
   const fetchAndSave = useCallback(
     async (profileData, showRefreshing = true) => {
       const prof = profileData ?? profile;
       if (!prof || !user) return;
 
-      const hasAnyUsername =
-        prof.codeforcesUsername ||
-        prof.leetcodeUsername ||
-        prof.atcoderUsername;
+      const codeforcesUsername = prof.codeforcesUsername;
 
-      if (!hasAnyUsername) {
+      if (!codeforcesUsername) {
         setIsLoading(false);
         return;
       }
 
-      if (showRefreshing) setIsRefreshing(true);
+      if (showRefreshing) {
+        setIsRefreshing(true);
+      } else {
+        setIsLoading(true);
+      }
 
       try {
-        const result = await statsService.fetchAllStats({
-          codeforcesUsername: prof.codeforcesUsername,
-          leetcodeUsername: prof.leetcodeUsername,
-          atcoderUsername: prof.atcoderUsername,
-        });
+        const result = await statsService.fetchCodeforces(
+          prof.codeforcesUsername
+        );
 
-        const {
-          errors: fetchErrors,
-          cfContests,
-          lastFetchedAt: fetchedAt,
-          ...statsData
-        } = result;
+        setStats(result);
+        setError(null);
+        setLastFetchedAt(new Date().toISOString());
 
-        setStats(statsData);
-        setErrors(fetchErrors);
-        setLastFetchedAt(fetchedAt);
-
-        // Save to Appwrite
         await profileService.saveProfile(user.$id, {
-          ...statsData,
-          lastFetchedAt: fetchedAt,
+          cfRating: result.cfRating,
+          cfRank: result.cfRank,
+          cfSolved: result.cfSolved,
+          lastFetchedAt: new Date().toISOString(),
         });
 
         await refetchProfile();
       } catch (error) {
-        console.error("fetchAndSave error ::", error);
+        setError(error.message);
       } finally {
         setIsRefreshing(false);
         setIsLoading(false);
@@ -78,47 +74,35 @@ export function useStats() {
 
   useEffect(() => {
     if (!profile) {
-      if (!isLoading) setIsLoading(false);
+      setIsLoading(false);
       return;
     }
 
-    const cachedData = {
+    setStats({
       cfRating: profile.cfRating ?? null,
       cfRank: profile.cfRank ?? null,
       cfSolved: profile.cfSolved ?? null,
-      lcGlobalRank: profile.lcGlobalRank ?? null,
-      lcSolved: profile.lcSolved ?? null,
-      lcEasy: profile.lcEasy ?? null,
-      lcMedium: profile.lcMedium ?? null,
-      lcHard: profile.lcHard ?? null,
-      acRating: profile.acRating ?? null,
-      acRank: profile.acRank ?? null,
-      acSolved: profile.acSolved ?? null,
-    };
-
-    setStats(cachedData);
-    setLastFetchedAt(profile.lastFetchedAt ?? null);
+      cfContests: [],
+    });
+    setLastFetchedAt(profile.lastFetchedAt);
     setIsLoading(false);
 
-    if (isStale(profile.lastFetchedAt) && !hasAutoFetched.current) {
+    if (isStale(profile.lastFetchedAt) && hasAutoFetched.current === false) {
       hasAutoFetched.current = true;
       fetchAndSave(profile, false);
     }
-  }, [profile, fetchAndSave, isLoading]);
+  }, [profile, fetchAndSave]);
 
   const refresh = useCallback(() => {
     fetchAndSave(profile, true);
   }, [fetchAndSave, profile]);
 
-  const totalSolved =
-    (stats?.cfSolved ?? 0) + (stats?.lcSolved ?? 0) + (stats?.acSolved ?? 0);
-
   return {
     stats,
-    totalSolved,
+    profile,
     isLoading,
     isRefreshing,
-    errors,
+    error,
     lastFetchedAt,
     refresh,
   };
