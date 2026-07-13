@@ -1,0 +1,264 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* CodeStats custom color tokens */
+  --color-brand: #f48020;
+  --color-brand-light: #ffb687;
+  --color-brand-dark: #5a2900;
+  --color-cf-blue: #38bdf8;
+  --color-lc-orange: #ffa116;
+  --color-ac-teal: #2dd4bf;
+  --color-cc-brown: #c4a882;
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+
+  --color-surface-0: #0c0a09;
+  --color-surface-1: #100e0c;
+  --color-surface-2: #161311;
+  --color-surface-3: #1c1917;
+  --color-surface-4: #221f1d;
+  --color-surface-5: #292524;
+  --color-surface-6: #2d2927;
+  --color-surface-7: #383432;
+  --color-surface-8: #3c3836;
+
+  --color-text-primary: #e9e1dd;
+  --color-text-secondary: #ddc1b1;
+  --color-text-muted: #a58c7d;
+  --color-outline: #574336;
+}
+
+/* Light theme - keeping defaults since we're dark-mode-first */
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+/* Dark theme - CodeStats branded colors */
+.dark {
+  --background: #0c0a09;
+  --foreground: #e9e1dd;
+  --card: #1c1917;
+  --card-foreground: #e9e1dd;
+  --popover: #1c1917;
+  --popover-foreground: #e9e1dd;
+  --primary: #f48020;
+  --primary-foreground: #5a2900;
+  --secondary: #38bdf8;
+  --secondary-foreground: #001e2c;
+  --muted: #292524;
+  --muted-foreground: #a58c7d;
+  --accent: #292524;
+  --accent-foreground: #e9e1dd;
+  --destructive: #f87171;
+  --border: #292524;
+  --input: #292524;
+  --ring: #f48020;
+  --chart-1: #f48020;
+  --chart-2: #38bdf8;
+  --chart-3: #4ade80;
+  --chart-4: #fbbf24;
+  --chart-5: #f87171;
+  --radius: 0.625rem;
+  --sidebar: #1e1b19;
+  --sidebar-foreground: #e9e1dd;
+  --sidebar-primary: #f48020;
+  --sidebar-primary-foreground: #5a2900;
+  --sidebar-accent: #292524;
+  --sidebar-accent-foreground: #e9e1dd;
+  --sidebar-border: #574336;
+  --sidebar-ring: #f48020;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+/* ========================================
+   CodeStats Custom Utilities
+   ======================================== */
+
+/* Glassmorphism card */
+.glass {
+  background: rgba(28, 25, 23, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid #292524;
+}
+
+.glass:hover {
+  background: rgba(41, 37, 36, 0.7);
+}
+
+/* Glass card (opaque variant used in dashboard) */
+.glass-card {
+  background-color: #1c1917;
+  border: 1px solid #292524;
+  transition: all 0.2s ease;
+}
+
+.glass-card:hover {
+  background-color: #292524;
+  box-shadow: inset 0 0 10px rgba(244, 128, 32, 0.05);
+}
+
+/* Gradient text effect */
+.text-gradient {
+  background: linear-gradient(to right, #ffb687, #f48020);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Radial glow background */
+.glow-spot {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(244, 128, 32, 0.1) 0%, transparent 70%);
+  border-radius: 9999px;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Radial glow centered */
+.radial-glow {
+  background: radial-gradient(circle at 50% 50%, rgba(244, 128, 32, 0.08) 0%, rgba(12, 10, 9, 0) 70%);
+}
+
+/* Input focus glow */
+.input-glow:focus {
+  outline: none;
+  border-color: #f48020;
+  box-shadow: 0 0 0 1px rgba(244, 128, 32, 0.2);
+}
+
+/* Verdict badges */
+.verdict-ac { color: #4ade80; background: rgba(74, 222, 128, 0.1); }
+.verdict-wa { color: #f87171; background: rgba(248, 113, 113, 0.1); }
+.verdict-tle { color: #fbbf24; background: rgba(251, 191, 36, 0.1); }
+
+/* Activity heatmap cell */
+.activity-cell {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+/* Scanline animation (auth page) */
+.scanline {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(244, 128, 32, 0.05), transparent);
+  position: absolute;
+  top: -2px;
+  left: 0;
+  animation: scan 8s linear infinite;
+  z-index: 10;
+  pointer-events: none;
+}
+
+@keyframes scan {
+  0% { top: 0%; }
+  100% { top: 100%; }
+}
+
+/* Float animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #292524; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #f48020; }
