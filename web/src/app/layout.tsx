@@ -1,6 +1,7 @@
 import { Providers } from "@/components/providers";
 import type { Metadata } from "next";
 import { Inter, Courier_Prime } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const inter = Inter({
@@ -48,7 +49,7 @@ export default function RootLayout({
         <Providers>
           {children}
         </Providers>
-
+        <Analytics />
       </body>
     </html>
   );
