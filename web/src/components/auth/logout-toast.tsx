@@ -11,8 +11,8 @@ export function LogoutToast() {
 
   useEffect(() => {
     if (searchParams.get("logout") === "true") {
-      // Remove the query param from URL without refreshing
-      router.replace("/", { scroll: false });
+      // Instantly remove the query param from URL bar without a full navigation cycle
+      window.history.replaceState(null, "", "/");
       
       // Delay to ensure hydration
       requestAnimationFrame(() => {
@@ -25,7 +25,7 @@ export function LogoutToast() {
 
       return () => clearTimeout(timer);
     }
-  }, [searchParams, router]);
+  }, []);
 
   if (!show) return null;
 
