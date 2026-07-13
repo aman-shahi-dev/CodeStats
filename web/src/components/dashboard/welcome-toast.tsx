@@ -14,7 +14,8 @@ export function WelcomeToast() {
   useEffect(() => {
     if (searchParams.get("welcome") === "true") {
       setMounted(true);
-      router.replace("/dashboard", { scroll: false });
+      // Instantly remove the query parameter from the URL bar without a full navigation cycle
+      window.history.replaceState(null, "", "/dashboard");
 
       // Slide in after a tiny delay (so transition plays)
       requestAnimationFrame(() => {
