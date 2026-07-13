@@ -27,12 +27,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   };
 
   const handleLogout = async () => {
-    try {
-      await signOut({ redirect: false });
-    } catch (e) {
-      // ignore JSON parse errors from beta
-    }
-    router.push("/?logout=true");
+    await signOut({ callbackUrl: "/?logout=true" });
   };
 
   if (status === "loading") {
